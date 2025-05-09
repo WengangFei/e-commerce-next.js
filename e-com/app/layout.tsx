@@ -1,5 +1,6 @@
 import '@/assets/styles/globals.css';
-import Navbar from '@/components/Navbar';
+import Footer from '@/components/LayOut/Footer';
+import Navbar from '@/components/LayOut/Navbar';
 
 
 
@@ -20,6 +21,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <main>
           { children }
         </main>
+        <Footer />
       </body>
     </html> );
 }

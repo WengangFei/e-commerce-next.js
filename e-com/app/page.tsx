@@ -1,14 +1,14 @@
-import Link from 'next/link';
+'use client'
+import Hero from '@/components/HomePage/Hero';
+import InforBox from '@/components/HomePage/InforBox';
+
 
 
 const HomePage = () => {
     return ( 
         <div>
-            <p className=''>Home Page</p>
-            <Link href={{
-                pathname: '/properties',
-                query: { id: 1 }
-            }}>Go To Properties</Link>
+            <Hero />
+            <InforBox />
         </div>
      );
 }
