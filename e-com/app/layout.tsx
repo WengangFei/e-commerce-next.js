@@ -1,6 +1,7 @@
 import '@/assets/styles/globals.css';
 import Footer from '@/components/LayOut/Footer';
 import Navbar from '@/components/LayOut/Navbar';
+import Test from '@/components/Test';
 
 
 

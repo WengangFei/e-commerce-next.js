@@ -21,7 +21,7 @@ const Hero = () => {
                     <option value="Room">Room</option>
                     <option value="Other">Other</option>
                 </select>
-                <button className='bg-blue-400 p-2 rounded-lg text-xs text-white md:text-sm'
+                <button className='bg-blue-400 p-2 rounded-lg text-xs text-white md:text-sm hover:cursor-pointer hover:bg-blue-600'
 
                 >
                     Search
