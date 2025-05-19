@@ -1,7 +1,8 @@
 import '@/assets/styles/globals.css';
+import AuthProvider from '@/components/AuthProvider';
 import Footer from '@/components/LayOut/Footer';
 import Navbar from '@/components/LayOut/Navbar';
-import Test from '@/components/Test';
+
 
 
 
@@ -16,15 +17,20 @@ export const metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return ( 
+    
     <html>
       <body>
-        <Navbar />
-        <main>
-          { children }
-        </main>
-        <Footer />
+        <AuthProvider>
+          <Navbar />
+          <main className='pb-24'>
+            { children }
+          </main>
+          <Footer />
+        </AuthProvider>  
       </body>
-    </html> );
+    </html> 
+    
+  );
 }
  
 export default RootLayout;

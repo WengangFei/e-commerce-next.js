@@ -1,3 +1,4 @@
+import { iProperty } from '@/utiles/type';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -8,7 +9,7 @@ import {
   FaMapMarker,
 } from 'react-icons/fa';
 
-const PropertyCard = ({ property }) => {
+const PropertyCard = ({ property }:{property:iProperty}) => {
   const getRateDisplay = () => {
     const { rates } = property;
     if (rates.monthly) {

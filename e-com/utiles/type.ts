@@ -16,7 +16,7 @@ export interface iProperty {
         street: string;
         city: string;
         state: string;
-        zip_code: string;
+        zipcode: string;
     };
     beds: number;
     baths: number;
@@ -29,4 +29,9 @@ export interface iProperty {
         email: string;
         phone: string;
     };
+}
+
+export interface AuthOption {
+    providers: any;
+    callbacks: any;
 }

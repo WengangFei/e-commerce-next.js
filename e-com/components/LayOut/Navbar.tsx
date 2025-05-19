@@ -1,20 +1,32 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import logo from '@/assets/images/logo-white.png';
 import Image from 'next/image';
 import profileDefault from '@/assets/images/profile.png';
 import Link from 'next/link';
 import googleIcon from '@/assets/images/google_icon.png';
+import { signOut, signIn, useSession, getProviders } from 'next-auth/react';
+import { FaGithub } from "react-icons/fa";
 
 
 
 const Navbar = () => {
 
+    const { data: session } = useSession();
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
     const pathname = usePathname();
-    const [isLogin, setIsLogin] = useState(false);
+    const [providers, setProviders] = useState(null);
+//  console.log(providers)
+    //get google provider
+    useEffect(() => {
+        (async () => {
+            const res = await getProviders();
+            setProviders(res);
+        })()
+    },[]);
+
 
     return ( 
             <nav className="bg-blue-700 border-b border-blue-500">
@@ -81,7 +93,7 @@ const Navbar = () => {
                                     Properties
                                 </Link>
                                 {
-                                    isLogin && (
+                                    session && (
                                         <Link
                                             href="/properties/add"
                                             className={`${ pathname === '/properties/add' ? 'bg-black' : ''} h-fit text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
@@ -97,35 +109,51 @@ const Navbar = () => {
 
                         {/* <!-- Right Side Menu (Logged Out) --> */}
                         {
-                            !isLogin && (
+                            !session && (
                                 <div className="hidden md:block md:ml-6">
                                     <div className="flex items-center">
-                                        <button
-                                            className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                                        >
-                                            <Image 
-                                                src={googleIcon}
-                                                alt='google icon'
-                                                className='w-5 h-5 mr-2 rounded-full'
-                                            />
-                                            <span>Login or Register</span>
-                                        </button>
+                                        {
+                                            providers && Object.values(providers).map((provider) => (
+                                                <div key={provider.name}>
+                                                    <button
+                                                        className="flex items-center text-white bg-gray-700 text-[12px] hover:bg-gray-900 hover:text-white 
+                                                        hover:cursor-pointer
+                                                        rounded-md px-1 py-1 mx-1"
+                                                        onClick={() => signIn(provider.id)}
+                                                    >
+                                                        {
+                                                            provider.name === 'Google' ? (
+                                                                <Image 
+                                                                    src={googleIcon}
+                                                                    alt='google icon'
+                                                                    className='w-4 h-4 mr-2 rounded-full'
+                                                                />
+                                                            ) : (
+                                                                <FaGithub size={15} className='mr-1'/>
+                                                            )
+                                                        }
+                                                        
+                                                        <span className='mr-1'>Login or Register</span>
+                                                    </button>
+                                                </div>
+                                            ))
+                                        }
                                     </div>
                                 </div>
                             )
                         }
-                        
 
                         {/* <!-- Right Side Menu (Logged In) --> */}
                         {
-                            isLogin && (
+                            session && (
                                 <div
                                 className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0"
                                 >
+                            
                                     <Link href="/messages" className="relative group">
                                     <button
                                         type="button"
-                                        className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                        className="relative mt-1 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                     >
                                         <span className="absolute -inset-1.5"></span>
                                         <span className="sr-only">View notifications</span>
@@ -166,8 +194,11 @@ const Navbar = () => {
                                             <span className="sr-only">Open user menu</span>
                                             <Image
                                                 className="h-8 w-8 rounded-full"
-                                                src={profileDefault}
+                                                src={session?.user?.image || profileDefault}
                                                 alt="profile default image"
+                                                width={50}
+                                                height={50}
+                                                
                                             />
                                             </button>
                                         </div>
@@ -181,27 +212,26 @@ const Navbar = () => {
                                                 role="menu"
                                                 aria-orientation="vertical"
                                                 aria-labelledby="user-menu-button"
-                                                tabIndex="-1"
                                             >
                                                 <Link
                                                 href="/profile"
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:text-blue-700"
                                                 role="menuitem"
-                                                tabIndex="-1"
                                                 id="user-menu-item-0"
                                                 >Your Profile</Link>
                                                 <Link
                                                 href="/properties/saved"
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:text-blue-700"
                                                 role="menuitem"
-                                                tabIndex="-1"
                                                 id="user-menu-item-2"
                                                 >Saved Properties</Link>
                                                 <button
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:text-red-700"
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:text-red-700
+                                                hover:cursor-pointer"
                                                 role="menuitem"
-                                                tabIndex="-1"
+                                                
                                                 id="user-menu-item-2"
+                                                onClick={() => signOut()}
                                                 >
                                                 Sign Out
                                                 </button>
@@ -210,6 +240,13 @@ const Navbar = () => {
                                         }
                                     
                                     </div>
+                                       <button
+                                        className="hidden md:block font-bold text-white bg-gray-700 text-[12px] hover:bg-gray-900 hover:text-white hover:cursor-pointer rounded-md px-1 py-1 ml-10"
+                                        onClick={() => signOut()}
+
+                                        >
+                                            Sign Out
+                                        </button>
                                 </div>
                             )
                         }
@@ -234,28 +271,61 @@ const Navbar = () => {
                                     Properties
                             </Link>
                             {
-                                isLogin && (
-                                    <Link
-                                        href="/properties/add"
-                                        className={`${ pathname === '/properties/add' ? 'bg-black' : ''} w-fit text-white block rounded-md px-3 py-2 text-base font-medium`}
+                                session && (
+                                    <>
+                                        <Link
+                                            href="/properties/add"
+                                            className={`${ pathname === '/properties/add' ? 'bg-black' : ''} w-fit text-white block rounded-md px-3 py-2 text-base font-medium`}
+                                            >
+                                                Add Property
+                                        </Link>
+                                        
+                                        <button
+                                        className="font-bold text-white bg-gray-700 text-[12px] hover:bg-gray-900 hover:text-white hover:cursor-pointer rounded-md px-1 py-1 ml-3"
+                                        onClick={() => signOut()}
+
                                         >
-                                            Add Property
-                                    </Link>
+                                            Sign Out
+                                        </button>
+                                        
+                                        
+                                    </>
                                 )
+
                             }
                             
                             {
-                                !isLogin && (
-                                    <button
-                                    className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-5"
-                                >
-                                    <Image 
-                                        src={googleIcon}
-                                        alt='google icon'
-                                        className='w-5 h-5 mr-2 rounded-full'
-                                    />
-                                    <span>Login or Register</span>
-                                </button>
+                                !session && (
+                                    <div className="md:block md:ml-6">
+                                        <div className="flex items-center">
+                                            {
+                                                providers && Object.values(providers).map((provider) => (
+                                                    <div key={provider.name}>
+                                                        <button
+                                                            className="flex items-center text-white bg-gray-700 text-[12px] hover:bg-gray-900 hover:text-white 
+                                                            hover:cursor-pointer
+                                                            rounded-md px-1 py-1 mx-1"
+                                                            onClick={() => signIn(provider.id)}
+                                                        >
+                                                            {
+                                                                provider.name === 'Google' ? (
+                                                                    <Image 
+                                                                        src={googleIcon}
+                                                                        alt='google icon'
+                                                                        className='w-4 h-4 mr-2 rounded-full'
+                                                                    />
+                                                                ) : (
+                                                                    <FaGithub size={15} className='mr-1'/>
+                                                                )
+                                                            }
+                                                            
+                                                            <span className='mr-1'>Login or Register</span>
+                                                        </button>
+                                                    </div>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
                                 )
                             }
                             

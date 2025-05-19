@@ -2,18 +2,19 @@ import PropertyCard from './PropertyCard';
 import Link from 'next/link';
 import connectDB from '@/db_config/db';
 import Property from '@/models/Property';
-import { iProperty } from '@/type';
+import { iProperty } from '@/utiles/type';
+
 
 
 
 
 const HomeProperties = async () => {
+
     //connect to MongoDB
     await connectDB();
     //fetch all properties
-    const properties = await Property.find({}).lean<iProperty[]>();
+    const properties = await Property.find({}).sort({ createdAt: -1 }).limit(3).lean<iProperty[]>();
 
-    const recentProperties = properties.slice(0, 3);
 
     return ( 
         <section className='mt-12'>
@@ -24,7 +25,7 @@ const HomeProperties = async () => {
                 <div className='grid grid-cols-1 md:grid-cols-3  gap-6'>
                     {
                         properties.length > 0 ? (
-                            recentProperties.map( property => (
+                            properties.map( property => (
                                 <PropertyCard key={property._id as string} property={property} /> 
                             ))
                             
@@ -33,16 +34,16 @@ const HomeProperties = async () => {
                             <p>No Properties</p>
                         )
                     }
-                    {
-                        properties.length > 3 && (
-                            <div className='text-center'>
-                                <Link href="/properties" className='text-blue-700 font-bold hover:text-gray-500'>
-                                    View More......
-                                </Link>
-                            </div>
-                        )
-                    }
                 </div>
+                {
+                    properties.length > 2 && (
+                        <div className='text-center mt-6'>
+                            <Link href="/properties" className='text-blue-700 font-bold hover:text-gray-500'>
+                                View More......
+                            </Link>
+                        </div>
+                    )
+                }
             </div>   
         </section>
      );

@@ -1,7 +1,7 @@
 import PropertyCard from '@/components/HomePage/PropertyCard';
 import connectDB from '@/db_config/db';
 import Property from '@/models/Property';
-import { iProperty } from '@/type';
+import { iProperty } from '@/utiles/type';
 
 
 
