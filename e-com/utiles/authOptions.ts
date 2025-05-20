@@ -63,7 +63,7 @@ export const authOptions = {
         },
         //session callback function that modifies the session object before it is returned to the client
         async session({ session }) {
-            console.log('session => ', session);
+            console.log('create session after sign in => ', session);
            
             const user = await User.findOne({ email: session.user.email });
             if (user) {

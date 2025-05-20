@@ -79,7 +79,7 @@ const PropertySchema = new Schema({
             required: [true, 'Phone is required'],
         }
     },
-    image: [
+    images: [
         {
             type: String,
         }

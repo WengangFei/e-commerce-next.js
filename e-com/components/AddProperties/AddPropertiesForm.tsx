@@ -7,8 +7,8 @@ import { useActionState } from 'react';
 const AddPropertiesForm = () => {
   
     const initialState = { success: false, message: '' };
-     const [state, formAction] = useActionState(AddProperty, initialState);
-     console.log('state => ', state);   
+    const [state, formAction] = useActionState(AddProperty, initialState);
+   
   return (
     <div className="container mx-auto py-8 p-4 md:py-8">
     <form action={formAction}>
@@ -18,7 +18,7 @@ const AddPropertiesForm = () => {
         <div className="mb-4">
             <label htmlFor="type" className="block text-gray-700 font-bold mb-2"
             >Property Type</label
-            >
+>
             <select
             id="type"
             name="type"
@@ -42,7 +42,7 @@ const AddPropertiesForm = () => {
             type="text"
             id="name"
             name="name"
-            className="border rounded w-full py-2 px-3 mb-2"
+            className={`border rounded w-full py-2 px-3 mb-2 ${Object.keys(state?.fields?.fieldErrors || {})?.includes('name') ? 'border-red-500' : ''}`}
             placeholder="eg. Beautiful Apartment In Miami"
             required
             defaultValue={state?.fields_values?.name || ''}
@@ -64,7 +64,7 @@ const AddPropertiesForm = () => {
             ></textarea>
         </div>
 
-        <div className="mb-4 bg-blue-50 p-4">
+        <div className={`mb-4 bg-blue-50 p-4 ${Object?.keys(state?.fields?.fieldErrors || {})?.includes('location') ? 'bg-red-200' : ''}`}>
             <label className="block text-gray-700 font-bold mb-2">Location</label>
             <input
             type="text"
@@ -142,7 +142,7 @@ const AddPropertiesForm = () => {
                 name="square_feet"
                 className="border rounded w-full py-2 px-3"
                 required
-                defaultValue={state?.fields_values?.square_feet || ''}
+                defaultValue={typeof state?.fields_values?.square_feet === 'string' ? state.fields_values.square_feet : ''}
             />
             </div>
         </div>
@@ -152,175 +152,175 @@ const AddPropertiesForm = () => {
             >Amenities</label
             >
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_wifi"
-                name="amenities"
-                value="Wifi"
-                className="mr-2"
-                 defaultChecked={state?.fields_values?.amenities?.includes('Wifi')}
-                />
-                <label htmlFor="amenity_wifi">Wifi</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_kitchen"
-                name="amenities"
-                value="Full kitchen"
-                className="mr-2"
-                 defaultChecked={state?.fields_values?.amenities?.includes('Full kitchen')}
-                />
-                <label htmlFor="amenity_kitchen">Full kitchen</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_washer_dryer"
-                name="amenities"
-                value="Washer & Dryer"
-                className="mr-2"
-                 defaultChecked={state?.fields_values?.amenities?.includes('Washer & Dryer')}
-                />
-                <label htmlFor="amenity_washer_dryer">Washer & Dryer</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_free_parking"
-                name="amenities"
-                value="Free Parking"
-                className="mr-2"
-                 defaultChecked={state?.fields_values?.amenities?.includes('Free Parking')}
-                />
-                <label htmlFor="amenity_free_parking">Free Parking</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_pool"
-                name="amenities"
-                value="Swimming Pool"
-                className="mr-2"
-                 defaultChecked={state?.fields_values?.amenities?.includes('Swimming Pool')}
-                />
-                <label htmlFor="amenity_pool">Swimming Pool</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_hot_tub"
-                name="amenities"
-                value="Hot Tub"
-                className="mr-2"
-                 defaultChecked={state?.fields_values?.amenities?.includes('Hot Tub')}
-                />
-                <label htmlFor="amenity_hot_tub">Hot Tub</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_24_7_security"
-                name="amenities"
-                value="24/7 Security"
-                className="mr-2"
-                defaultChecked={state?.fields_values?.amenities?.includes('24/7 Security')}
-                />
-                <label htmlFor="amenity_24_7_security">24/7 Security</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_wheelchair_accessible"
-                name="amenities"
-                value="Wheelchair Accessible"
-                className="mr-2"
-                defaultChecked={state?.fields_values?.amenities?.includes('Wheelchair Accessible')}
-                />
-                <label htmlFor="amenity_wheelchair_accessible"
-                >Wheelchair Accessible</label
-                >
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_elevator_access"
-                name="amenities"
-                value="Elevator Access"
-                className="mr-2"
-                defaultChecked={state?.fields_values?.amenities?.includes('Elevator Access')}
-                />
-                <label htmlFor="amenity_elevator_access">Elevator Access</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_dishwasher"
-                name="amenities"
-                value="Dishwasher"
-                className="mr-2"
-                defaultChecked={state?.fields_values?.amenities?.includes('Dishwasher')}
-                />
-                <label htmlFor="amenity_dishwasher">Dishwasher</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_gym_fitness_center"
-                name="amenities"
-                value="Gym/Fitness Center"
-                className="mr-2"
-                defaultChecked={state?.fields_values?.amenities?.includes('Gym/Fitness Center')}
-                />
-                <label htmlFor="amenity_gym_fitness_center"
-                >Gym/Fitness Center</label
-                >
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_air_conditioning"
-                name="amenities"
-                value="Air Conditioning"
-                className="mr-2"    
-                defaultChecked={state?.fields_values?.amenities?.includes('Air Conditioning')}
-                />
-                <label htmlFor="amenity_air_conditioning">Air Conditioning</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_balcony_patio"
-                name="amenities"
-                value="Balcony/Patio"
-                className="mr-2"    
-                defaultChecked={state?.fields_values?.amenities?.includes('Balcony/Patio')}
-                />
-                <label htmlFor="amenity_balcony_patio">Balcony/Patio</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_smart_tv"
-                name="amenities"
-                value="Smart TV"
-                className="mr-2"
-                defaultChecked={state?.fields_values?.amenities?.includes('Smart TV')}
-                />
-                <label htmlFor="amenity_smart_tv">Smart TV</label>
-            </div>
-            <div>
-                <input
-                type="checkbox"
-                id="amenity_coffee_maker"
-                name="amenities"
-                value="Coffee Maker"
-                className="mr-2"
-                defaultChecked={state?.fields_values?.amenities?.includes('Coffee Maker')}
-                />
-                <label htmlFor="amenity_coffee_maker">Coffee Maker</label>
-            </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_wifi"
+                    name="amenities"
+                    value="Wifi"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Wifi')}
+                    />
+                    <label htmlFor="amenity_wifi">Wifi</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_kitchen"
+                    name="amenities"
+                    value="Full kitchen"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Full kitchen')}
+                    />
+                    <label htmlFor="amenity_kitchen">Full kitchen</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_washer_dryer"
+                    name="amenities"
+                    value="Washer & Dryer"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Washer & Dryer')}
+                    />
+                    <label htmlFor="amenity_washer_dryer">Washer & Dryer</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_free_parking"
+                    name="amenities"
+                    value="Free Parking"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Free Parking')}
+                    />
+                    <label htmlFor="amenity_free_parking">Free Parking</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_pool"
+                    name="amenities"
+                    value="Swimming Pool"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Swimming Pool')}
+                    />
+                    <label htmlFor="amenity_pool">Swimming Pool</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_hot_tub"
+                    name="amenities"
+                    value="Hot Tub"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Hot Tub')}
+                    />
+                    <label htmlFor="amenity_hot_tub">Hot Tub</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_24_7_security"
+                    name="amenities"
+                    value="24/7 Security"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('24/7 Security')}
+                    />
+                    <label htmlFor="amenity_24_7_security">24/7 Security</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_wheelchair_accessible"
+                    name="amenities"
+                    value="Wheelchair Accessible"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Wheelchair Accessible')}
+                    />
+                    <label htmlFor="amenity_wheelchair_accessible"
+                    >Wheelchair Accessible</label
+                    >
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_elevator_access"
+                    name="amenities"
+                    value="Elevator Access"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Elevator Access')}
+                    />
+                    <label htmlFor="amenity_elevator_access">Elevator Access</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_dishwasher"
+                    name="amenities"
+                    value="Dishwasher"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Dishwasher')}
+                    />
+                    <label htmlFor="amenity_dishwasher">Dishwasher</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_gym_fitness_center"
+                    name="amenities"
+                    value="Gym/Fitness Center"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Gym/Fitness Center')}
+                    />
+                    <label htmlFor="amenity_gym_fitness_center"
+                    >Gym/Fitness Center</label
+                    >
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_air_conditioning"
+                    name="amenities"
+                    value="Air Conditioning"
+                    className="mr-2"    
+                    defaultChecked={state?.fields_values?.amenities?.includes('Air Conditioning')}
+                    />
+                    <label htmlFor="amenity_air_conditioning">Air Conditioning</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_balcony_patio"
+                    name="amenities"
+                    value="Balcony/Patio"
+                    className="mr-2"    
+                    defaultChecked={state?.fields_values?.amenities?.includes('Balcony/Patio')}
+                    />
+                    <label htmlFor="amenity_balcony_patio">Balcony/Patio</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_smart_tv"
+                    name="amenities"
+                    value="Smart TV"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Smart TV')}
+                    />
+                    <label htmlFor="amenity_smart_tv">Smart TV</label>
+                </div>
+                <div>
+                    <input
+                    type="checkbox"
+                    id="amenity_coffee_maker"
+                    name="amenities"
+                    value="Coffee Maker"
+                    className="mr-2"
+                    defaultChecked={state?.fields_values?.amenities?.includes('Coffee Maker')}
+                    />
+                    <label htmlFor="amenity_coffee_maker">Coffee Maker</label>
+                </div>
             </div>
         </div>
 
@@ -338,7 +338,7 @@ const AddPropertiesForm = () => {
                 id="weekly_rate"
                 name="rates.weekly"
                 className="border rounded w-full py-2 px-3"
-                defaultValue={state?.fields_values?.rates?.weekly}
+                defaultValue={state?.fields_values?.rates?.weekly as string}
                 />
             </div>
             <div className="flex items-center">
@@ -348,7 +348,7 @@ const AddPropertiesForm = () => {
                 id="monthly_rate"
                 name="rates.monthly"
                 className="border rounded w-full py-2 px-3"
-                defaultValue={state?.fields_values?.rates?.monthly}
+                defaultValue={state?.fields_values?.rates?.monthly as string}
                 />
             </div>
             <div className="flex items-center">
@@ -358,7 +358,7 @@ const AddPropertiesForm = () => {
                 id="nightly_rate"
                 name="rates.nightly"
                 className="border rounded w-full py-2 px-3"
-                defaultValue={state?.fields_values?.rates?.nightly}
+                defaultValue={state?.fields_values?.rates?.nightly as string}
                 />
             </div>
             </div>
@@ -376,7 +376,7 @@ const AddPropertiesForm = () => {
             name="seller_info.name"
             className="border rounded w-full py-2 px-3"
             placeholder="Name"
-            defaultValue={state?.fields_values?.seller_info?.name}
+            defaultValue={typeof state?.fields_values?.seller_info?.name === 'string' ? state?.fields_values?.seller_info?.name : ''}
             />
         </div>
         <div className="mb-4">
@@ -392,7 +392,7 @@ const AddPropertiesForm = () => {
             className="border rounded w-full py-2 px-3"
             placeholder="Email address"
             required
-            defaultValue={state?.fields_values?.seller_info?.email}
+            defaultValue={state?.fields_values?.seller_info?.email as string}
             />
         </div>
         <div className="mb-4">
@@ -407,7 +407,7 @@ const AddPropertiesForm = () => {
             name="seller_info.phone"
             className="border rounded w-full py-2 px-3"
             placeholder="Phone"
-            defaultValue={state?.fields_values?.seller_info?.phone}
+            defaultValue={state?.fields_values?.seller_info?.phone as string}
             />
         </div>
 
@@ -444,8 +444,8 @@ const AddPropertiesForm = () => {
                 <div className={`mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative ${state?.fields?.fieldErrors ? 'block' : 'hidden'}`}  role="alert">
                     { 
                         state?.fields?.fieldErrors &&
-                        Object.values(state?.fields?.fieldErrors).map( error => (
-                            <div key={error}>
+                        Object.values(state?.fields?.fieldErrors).map( (error,index) => (
+                            <div key={index}>
                                 <span className="block sm:inline">{error}</span>
                             </div>
                         ))

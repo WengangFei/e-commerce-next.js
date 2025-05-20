@@ -1,11 +1,18 @@
 'use server';
 
+import connectDB from '@/db_config/db';
+import Property from '@/models/Property';
+import { getUserSession } from '@/utiles/getUserSession';
 import { addPropertyFormSchema } from '@/utiles/schema';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+
+
 
 export const AddProperty = async (prevState: any,formData: FormData) => {
 
     const images = formData.getAll('images').filter((image) => image !== '').map((image: any) => image.name);
-
+    console.log('images =>', images);
     const data = {
         type: formData.get('type'),
         name: formData.get('name'),
@@ -37,13 +44,29 @@ export const AddProperty = async (prevState: any,formData: FormData) => {
     const checkResults = addPropertyFormSchema.safeParse(data);
     console.log('data =>', data);
     if (!checkResults.success) {
-        console.log('checkResults==>', checkResults.error.flatten());
         return {
             success: false,
             fields: checkResults.error.flatten(),
-            fields_values: data
+            fields_values: data,
         };
     }
-    return { success: true };
+    //all data good, save data in DB
+    await connectDB();
+    const sessionUser = await getUserSession();
+    if(!sessionUser || !sessionUser.user.id){
+        throw new Error('User id not found');
+    }
+
+    const newProperty = await Property.create({
+        ...data,
+        owner: sessionUser.user.id,
+    });
+    console.log('newProperty =>', newProperty);
+    if(!newProperty){
+        throw new Error('Error creating property');
+    }
+    //update cache
+    revalidatePath('/','layout');
+    redirect(`/properties/${newProperty?._id}`);
 };
 
