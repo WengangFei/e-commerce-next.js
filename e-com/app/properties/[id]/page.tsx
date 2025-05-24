@@ -1,6 +1,6 @@
 import HeaderImage from "@/components/PropertyPage/HeaderImage";
 import PropertyDetails from "@/components/PropertyPage/PropertyDetails";
-import connectDB from "@/db_config/db";
+import connectDB from "@/config/db";
 import Property from "@/models/Property";
 import { iProperty } from "@/utiles/type";
 import Link from "next/link";

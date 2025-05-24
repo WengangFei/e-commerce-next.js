@@ -1,6 +1,6 @@
 import PropertyCard from './PropertyCard';
 import Link from 'next/link';
-import connectDB from '@/db_config/db';
+import connectDB from '@/config/db';
 import Property from '@/models/Property';
 import { iProperty } from '@/utiles/type';
 

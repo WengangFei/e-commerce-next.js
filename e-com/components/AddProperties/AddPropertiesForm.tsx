@@ -1,13 +1,29 @@
 'use client';
 
 import { AddProperty } from '@/app/actions/AddProperty';
-import { useActionState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useActionState, useEffect, useState } from 'react';
+
 
 
 const AddPropertiesForm = () => {
-  
-    const initialState = { success: false, message: '' };
+
+    const initialState = { success: false, property_id: '' };
     const [state, formAction] = useActionState(AddProperty, initialState);
+    const [loader, setLoader] = useState(false);
+    //redirect to property page
+    const router = useRouter();
+
+    useEffect(() => {
+        if (state.success) {
+            setLoader(false);
+            const timeout = setTimeout(() => {
+            router.push(`/properties/${state.property_id}`);
+            }, 3000);
+
+            return () => clearTimeout(timeout); // clean up on unmount
+        }
+    }, [state.success]);
    
   return (
     <div className="container mx-auto py-8 p-4 md:py-8">
@@ -45,7 +61,7 @@ const AddPropertiesForm = () => {
             className={`border rounded w-full py-2 px-3 mb-2 ${Object.keys(state?.fields?.fieldErrors || {})?.includes('name') ? 'border-red-500' : ''}`}
             placeholder="eg. Beautiful Apartment In Miami"
             required
-            defaultValue={state?.fields_values?.name || ''}
+            defaultValue={(state as any)?.fields_values?.name || ''}
             />
         </div>
         <div className="mb-4">
@@ -430,13 +446,22 @@ const AddPropertiesForm = () => {
             <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
             type="submit"
+            onClick={() => setLoader(true)}
             >
-            Add Property
+            { 
+                loader ? (
+                    <div className='flex items-center justify-center gap-6'>
+                        <img src={loader.src} alt='loader' className='w-6 h-6 animate-spin'/>
+                        Adding Property...
+                    </div>
+                
+                ) : 'Add Property'
+            }
             </button>
         </div>
         </form>
         {
-            state.success ? (
+            state?.success ? (
                 <div className="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                     <span className="block sm:inline">Property added successfully!</span>
                 </div>

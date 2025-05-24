@@ -4,6 +4,7 @@ import { FaBed } from "react-icons/fa";
 import { FaBath } from "react-icons/fa";
 import { FaRulerCombined } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa";
+import Image from "next/image";
 
 const PropertyDetails = ({ details }: { details: iProperty }) => {
 
@@ -76,6 +77,26 @@ const PropertyDetails = ({ details }: { details: iProperty }) => {
                                     <FaCheck color='green'/> 
                                     <span className='text-[10px] md:text-sm'>{amenity}</span>
                                 </div>
+                            ))
+                        }
+                    </div>
+                </div>
+                {/* images */}
+                <div className='p-4 rounded-lg bg-white'>
+                    <p className='my-4 py-1 text-[8px] bg-blue-500 text-white w-fit px-1 rounded-lg md:text-[10px]'>Images</p>
+                    <div className='grid grid-cols-2 gap-2'>
+                        { 
+                            details.images.map((image: string) => (
+                                <div key={image}>
+                                    <Image
+                                        src={image}
+                                        alt='property'
+                                        width={550}
+                                        height={450}
+                                        className='object-cover w-full rounded-xl cursor-pointer'
+                                    />
+                                </div>
+                                
                             ))
                         }
                     </div>

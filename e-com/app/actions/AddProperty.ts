@@ -1,18 +1,19 @@
 'use server';
 
-import connectDB from '@/db_config/db';
+import cloudinary from '@/config/cloudinary';
+import connectDB from '@/config/db';
 import Property from '@/models/Property';
 import { getUserSession } from '@/utiles/getUserSession';
 import { addPropertyFormSchema } from '@/utiles/schema';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+
 
 
 
 export const AddProperty = async (prevState: any,formData: FormData) => {
 
-    const images = formData.getAll('images').filter((image) => image !== '').map((image: any) => image.name);
-    console.log('images =>', images);
+    const images = formData.getAll('images').filter((image) => image !== '')
+   
     const data = {
         type: formData.get('type'),
         name: formData.get('name'),
@@ -38,11 +39,10 @@ export const AddProperty = async (prevState: any,formData: FormData) => {
             email: formData.get('seller_info.email'),
             phone: formData.get('seller_info.phone'),
         },
-        images,
     };
 
     const checkResults = addPropertyFormSchema.safeParse(data);
-    console.log('data =>', data);
+    
     if (!checkResults.success) {
         return {
             success: false,
@@ -50,7 +50,31 @@ export const AddProperty = async (prevState: any,formData: FormData) => {
             fields_values: data,
         };
     }
-    //all data good, save data in DB
+    //upload images to cloudinary
+    const imagesURL = [];
+    for (const image of images) {
+        if (!(image instanceof File)) {
+            return Response.json({ error: 'Expected a file upload' }, 
+                { status: 400 });
+        }
+        //convert image to buffer
+        const imageBuffer = await image.arrayBuffer() ;
+        const imageArray = Array.from(new Uint8Array(imageBuffer));
+        const imageData = Buffer.from(imageArray);
+        //encode to base64 string
+        const imageBase64 = imageData.toString('base64');
+        //upload to cloudinary
+        const upload = await cloudinary.uploader.upload(
+            `data:image/png;base64,${imageBase64}`,
+            {
+                folder: 'e-comm',
+            }
+        );
+        imagesURL.push(upload.secure_url);
+       
+    }
+    console.log('imagesURL =>', imagesURL);
+    // //all data good, save data in DB
     await connectDB();
     const sessionUser = await getUserSession();
     if(!sessionUser || !sessionUser.user.id){
@@ -60,13 +84,19 @@ export const AddProperty = async (prevState: any,formData: FormData) => {
     const newProperty = await Property.create({
         ...data,
         owner: sessionUser.user.id,
+        images: imagesURL,
     });
-    console.log('newProperty =>', newProperty);
+
     if(!newProperty){
         throw new Error('Error creating property');
     }
     //update cache
     revalidatePath('/','layout');
-    redirect(`/properties/${newProperty?._id}`);
+    // redirect(`/properties/${newProperty?._id}`);
+    return {
+        success: true,
+        property_id: newProperty?._id.toString(),
+     
+    };
 };
 

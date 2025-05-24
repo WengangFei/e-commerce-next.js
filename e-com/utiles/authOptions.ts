@@ -1,4 +1,4 @@
-import connectDB from "@/db_config/db";
+import connectDB from "@/config/db";
 import User from "@/models/User";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";

@@ -1,14 +1,16 @@
 import PropertyCard from '@/components/HomePage/PropertyCard';
-import connectDB from '@/db_config/db';
+import connectDB from '@/config/db';
 import Property from '@/models/Property';
 import { iProperty } from '@/utiles/type';
+
 
 
 
 const PropertiesPage = async () => {
     await connectDB();
     const properties = await Property.find({}).lean<iProperty[]>();
- 
+
+// console.log('property page =>',properties);
     return ( 
         <section className=''>
             <div className="md:container m-auto py-6 px-6 ">

@@ -24,7 +24,7 @@ const PropertyCard = ({ property }:{property:iProperty}) => {
   return (
     <div className='rounded-xl shadow-md relative'>
       <Image
-        src={`/properties/${property?.images[0]}`}
+        src={property.images[0]}
         alt='property'
         width='0'
         height='0'
@@ -41,15 +41,15 @@ const PropertyCard = ({ property }:{property:iProperty}) => {
         </h3>
 
         <div className='flex justify-center gap-4 text-gray-500 mb-4'>
-          <p>
+          <p className='text-[10px] md:text-sm'>
             <FaBed className='md:hidden lg:inline' /> {property.beds}{' '}
             <span className='md:hidden lg:inline'>Beds</span>
           </p>
-          <p>
+          <p className='text-[10px] md:text-sm'>
             <FaBath className='md:hidden lg:inline' /> {property.baths}{' '}
             <span className='md:hidden lg:inline'>Baths</span>
           </p>
-          <p>
+          <p className='text-[10px] md:text-sm'>
             <FaRulerCombined className='md:hidden lg:inline' />
             {property.square_feet}{' '}
             <span className='md:hidden lg:inline'>sqft</span>
@@ -58,12 +58,18 @@ const PropertyCard = ({ property }:{property:iProperty}) => {
 
         <div className='flex justify-center gap-4 text-green-900 text-sm mb-4'>
           <p>
-            <FaMoneyBill className='md:hidden lg:inline' /> Weekly
+            <FaMoneyBill className='md:hidden lg:inline' /> 
+            <span className='text-[8px] md:text-[10px]'>{getRateDisplay()}</span>
           </p>
           <p>
-            <FaMoneyBill className='md:hidden lg:inline' /> Monthly
+            <FaMoneyBill className='md:hidden lg:inline' /> 
+            <span className='text-[8px] md:text-[10px]'>{getRateDisplay()}</span>
           </p>
-        </div>
+          <p>
+            <FaMoneyBill className='md:hidden lg:inline' /> 
+            <span className='text-[8px] md:text-[10px]'>{getRateDisplay()}</span>
+          </p>
+        </div> 
 
         <div className='border border-gray-100 mb-5'></div>
 

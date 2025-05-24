@@ -208,26 +208,28 @@ const Navbar = () => {
                                             isProfileMenuOpen && (
                                                 <div
                                                 id="user-menu"
-                                                className="absolute right-2 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                className="absolute right-2 z-10 mt-2 w-48 origin-top-right rounded-md bg-white p-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                                 role="menu"
                                                 aria-orientation="vertical"
                                                 aria-labelledby="user-menu-button"
                                             >
                                                 <Link
                                                 href="/profile"
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:text-blue-700"
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-700 hover:text-white hover:rounded-md"
                                                 role="menuitem"
                                                 id="user-menu-item-0"
+                                                onClick={()=>setProfileMenuOpen(prev => !prev)}
                                                 >Your Profile</Link>
                                                 <Link
                                                 href="/properties/saved"
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:text-blue-700"
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-700 hover:text-white hover:rounded-md"
                                                 role="menuitem"
                                                 id="user-menu-item-2"
+                                                onClick={()=>setProfileMenuOpen(prev => !prev)}
                                                 >Saved Properties</Link>
                                                 <button
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:text-red-700
-                                                hover:cursor-pointer"
+                                                className="block px-4 py-2 text-sm text-gray-700 
+                                                hover:bg-red-700 hover:text-white hover:rounded-md"
                                                 role="menuitem"
                                                 
                                                 id="user-menu-item-2"
