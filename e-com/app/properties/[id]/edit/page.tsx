@@ -10,11 +10,9 @@ import { toast } from "react-toastify";
 
 
 
-
 const PropertyEditPage = () => {
 
-    // const { id } = await params;
-    // const property = await Property.findById(id).lean<iProperty>();
+
     const { id } = useParams();
 
     const [property, setProperty] = useState<iProperty | null>(null);

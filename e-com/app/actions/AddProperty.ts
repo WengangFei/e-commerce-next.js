@@ -73,7 +73,7 @@ export const AddProperty = async (prevState: any,formData: FormData) => {
         imagesURL.push(upload.secure_url);
        
     }
-    console.log('imagesURL =>', imagesURL);
+    // console.log('imagesURL =>', imagesURL);
     // //all data good, save data in DB
     await connectDB();
     const sessionUser = await getUserSession();
