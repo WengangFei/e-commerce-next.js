@@ -8,24 +8,35 @@ import Link from 'next/link';
 import googleIcon from '@/assets/images/google_icon.png';
 import { signOut, signIn, useSession, getProviders } from 'next-auth/react';
 import { FaGithub } from "react-icons/fa";
+import { useQuery } from '@tanstack/react-query';
+import { fetchUnreadMessages } from '@/lib/queries/messages';
+
 
 
 
 const Navbar = () => {
 
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
     const pathname = usePathname();
     const [providers, setProviders] = useState(null);
-//  console.log(providers)
+    // const [message, setMessage] = useState(0);
+    const { data: unread_messages, refetch } = useQuery({
+        queryKey: ['unreadMessages'],
+        queryFn: fetchUnreadMessages,
+        enabled: !!session,//only fetch if user is logged in
+    })
+
     //get google provider
     useEffect(() => {
         (async () => {
             const res = await getProviders();
-            setProviders(res);
+            setProviders(res as any);
         })()
     },[]);
+
+   
 
 
     return ( 
@@ -114,15 +125,15 @@ const Navbar = () => {
                                     <div className="flex items-center">
                                         {
                                             providers && Object.values(providers).map((provider) => (
-                                                <div key={provider.name}>
+                                                <div key={(provider as any)?.name}>
                                                     <button
                                                         className="flex items-center text-white bg-gray-700 text-[12px] hover:bg-gray-900 hover:text-white 
                                                         hover:cursor-pointer
                                                         rounded-md px-1 py-1 mx-1"
-                                                        onClick={() => signIn(provider.id)}
+                                                        onClick={() => signIn((provider as any)?.id)}
                                                     >
                                                         {
-                                                            provider.name === 'Google' ? (
+                                                            (provider as any)?.name === 'Google' ? (
                                                                 <Image 
                                                                     src={googleIcon}
                                                                     alt='google icon'
@@ -151,33 +162,33 @@ const Navbar = () => {
                                 >
                             
                                     <Link href="/messages" className="relative group">
-                                    <button
-                                        type="button"
-                                        className="relative mt-1 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                    >
-                                        <span className="absolute -inset-1.5"></span>
-                                        <span className="sr-only">View notifications</span>
-                                        <svg
-                                        className="h-6 w-6"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="1.5"
-                                        stroke="currentColor"
-                                        aria-hidden="true"
+                                        <button
+                                            type="button"
+                                            className="relative mt-1 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                         >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                                        />
-                                        </svg>
-                                    </button>
-                                    <span
-                                        className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
-                                    >
-                                        2
-                                        {/* <!-- Replace with the actual number of notifications --> */}
-                                    </span>
+                                            <span className="absolute -inset-1.5"></span>
+                                            <span className="sr-only">View notifications</span>
+                                            <svg
+                                            className="h-6 w-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="1.5"
+                                            stroke="currentColor"
+                                            aria-hidden="true"
+                                            >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                                            />
+                                            </svg>
+                                            
+                                        </button>
+                                        <span
+                                            className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
+                                        >
+                                            { unread_messages?.length > 0 && unread_messages.length || 0 }
+                                        </span>
                                     </Link>
                                     {/* <!-- Profile dropdown button --> */}
                                     <div className="relative ml-3">
@@ -302,15 +313,15 @@ const Navbar = () => {
                                         <div className="flex items-center">
                                             {
                                                 providers && Object.values(providers).map((provider) => (
-                                                    <div key={provider.name}>
+                                                    <div key={(provider as any).provider.name}>
                                                         <button
                                                             className="flex items-center text-white bg-gray-700 text-[12px] hover:bg-gray-900 hover:text-white 
                                                             hover:cursor-pointer
                                                             rounded-md px-1 py-1 mx-1"
-                                                            onClick={() => signIn(provider.id)}
+                                                            onClick={() => signIn((provider as any).provider.id)}
                                                         >
                                                             {
-                                                                provider.name === 'Google' ? (
+                                                                (provider as any).provider.name === 'Google' ? (
                                                                     <Image 
                                                                         src={googleIcon}
                                                                         alt='google icon'

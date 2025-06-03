@@ -14,12 +14,12 @@ const SearchedProperties = async ({ searchParams }: { searchParams: { [key: stri
     // Base search condition with required location
     const searchConditions: any = [
         {
-        $or: [
-            { 'location.street': { $regex: locationQuery, $options: 'i' } },
-            { 'location.city': { $regex: locationQuery, $options: 'i' } },
-            { 'location.state': { $regex: locationQuery, $options: 'i' } },
-            { 'location.zipcode': { $regex: locationQuery, $options: 'i' } }
-        ]
+            $or: [
+                { 'location.street': { $regex: locationQuery, $options: 'i' } },
+                { 'location.city': { $regex: locationQuery, $options: 'i' } },
+                { 'location.state': { $regex: locationQuery, $options: 'i' } },
+                { 'location.zipcode': { $regex: locationQuery, $options: 'i' } }
+            ]
         }
     ];
 

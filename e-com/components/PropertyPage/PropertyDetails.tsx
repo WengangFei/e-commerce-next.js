@@ -12,7 +12,7 @@ import ContactForm from "./ContactForm";
 
 
 
-const PropertyDetails = ({ details }: { details: iProperty }) => {
+const PropertyDetails = ({ details, propertyId }: { details: iProperty, propertyId: string }) => {
 // console.log('details =>',details);
  
 
@@ -140,7 +140,7 @@ const PropertyDetails = ({ details }: { details: iProperty }) => {
                 <div className='grid grid-cols-1 gap-2 md:maw-w-2xl'>
                     <BookmarkPage details={JSON.parse(JSON.stringify(details))}/>
                     <ShareButton details={JSON.parse(JSON.stringify(details))}/>
-                    <ContactForm />
+                    <ContactForm property_id={propertyId}/>
                 </div>
                 
             </div>
