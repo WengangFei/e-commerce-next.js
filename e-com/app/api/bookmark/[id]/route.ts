@@ -5,10 +5,10 @@ import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 
 
-const POST = async (
+export async function POST(
   request: Request,
   { params }: { params: { id: string } }
-) => {
+) {
   const { id } = await params;
   const session = await getUserSession();
 
@@ -43,7 +43,7 @@ const POST = async (
   );
 };
 
-const GET = async (request: Request, { params }: { params: { id: string } }) => {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   const { id } = await params;
   const session = await getUserSession();
 
@@ -67,4 +67,3 @@ const GET = async (request: Request, { params }: { params: { id: string } }) => 
   );
 };
 
-export { POST, GET };
