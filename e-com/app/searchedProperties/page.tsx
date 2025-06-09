@@ -1,7 +1,6 @@
 import PropertyCard from "@/components/HomePage/PropertyCard";
 import connectDB from "@/config/db";
 import Property from "@/models/Property";
-import { iProperty } from "@/utiles/type";
 import Link from "next/link";
 
 const SearchedProperties = async ({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined }}) => {
@@ -37,7 +36,7 @@ const SearchedProperties = async ({ searchParams }: { searchParams: { [key: stri
          <section className='mt-12'>
             <div className="md:container m-auto py-6 px-6 ">
                 <h1 className="text-2xl text-center font-bold mb-6 text-blue-500 text-center">
-                    Saved Properties
+                    Searched Properties
                 </h1>
                 <div className='grid grid-cols-1 md:grid-cols-3  gap-6'>
                     {

@@ -1,3 +1,5 @@
+'use client';
+
 import { iProperty } from "@/utiles/type";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaBed, FaEnvelope, FaPhone, FaUser } from "react-icons/fa";
@@ -9,15 +11,18 @@ import MapWrapper from "./MapWrapper";
 import ShareButton from "./ShareButton";
 import BookmarkPage from "./BookmarkPage";
 import ContactForm from "./ContactForm";
+import { Gallery, Item } from 'react-photoswipe-gallery';
+
+
 
 
 
 const PropertyDetails = ({ details, propertyId }: { details: iProperty, propertyId: string }) => {
 // console.log('details =>',details);
- 
 
     
     return ( 
+
         <div className='bg-blue-50 p-8 gap-4 flex flex-col md:flex-row'>
             <div className='text-sm font-bold p-4 rounded-lg md:w-2/3 gap-4 flex flex-col'>
                 {/* property details */}
@@ -88,25 +93,38 @@ const PropertyDetails = ({ details, propertyId }: { details: iProperty, property
                     </div>
                 </div>
                 {/* images */}
-                <div className='p-4 rounded-lg bg-white'>
-                    <p className='my-4 py-1 text-[8px] bg-blue-500 text-white w-fit px-1 rounded-md md:text-[10px]'>Images</p>
-                    <div className='grid grid-cols-2 gap-2'>
-                        { 
-                            details.images.map((image: string) => (
-                                <div key={image}>
-                                    <Image
-                                        src={image}
-                                        alt='property'
-                                        width={550}
-                                        height={450}
-                                        className='object-cover w-full rounded-xl cursor-pointer'
-                                    />
-                                </div>
-                                
-                            ))
-                        }
+                <Gallery>
+                    <div className='p-4 rounded-lg bg-white'>
+                        <p className='my-4 py-1 text-[8px] bg-blue-500 text-white w-fit px-1 rounded-md md:text-[10px]'>Images</p>
+                        <div className='grid grid-cols-2 gap-2'>
+                            { 
+                                details.images.map((image: string) => (
+                                    <div key={image}>
+                                        <Item
+                                            original={image}
+                                            thumbnail={image}
+                                            width="1024"
+                                            height="768"
+                                            >
+                                            {({ ref, open }) => (   
+                                                <Image
+                                                    src={image}
+                                                    alt='property'
+                                                    width={550}
+                                                    height={450}
+                                                    ref={ref}
+                                                    onClick={open}
+                                                    className='object-cover w-full rounded-xl cursor-pointer'
+                                                />
+                                            )}
+                                        </Item>
+                                    </div>
+                                    
+                                ))
+                            }
+                        </div>
                     </div>
-                </div>
+                </Gallery>
                 {/* owner info */}
                 <div className='p-4 rounded-lg bg-white'>
                     <p className='my-4 py-1 text-[8px] bg-blue-500 text-white w-fit px-1 rounded-md md:text-[10px]'>Property Owner Info:</p>
@@ -142,7 +160,6 @@ const PropertyDetails = ({ details, propertyId }: { details: iProperty, property
                     <ShareButton details={JSON.parse(JSON.stringify(details))}/>
                     <ContactForm property_id={propertyId}/>
                 </div>
-                
             </div>
 
 

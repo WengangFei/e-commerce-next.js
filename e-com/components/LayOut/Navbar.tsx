@@ -10,6 +10,7 @@ import { signOut, signIn, useSession, getProviders } from 'next-auth/react';
 import { FaGithub } from "react-icons/fa";
 import { useQuery } from '@tanstack/react-query';
 import { fetchUnreadMessages } from '@/lib/queries/messages';
+import { useGlobalContext } from '@/context/GlobalContext';
 
 
 
@@ -22,7 +23,7 @@ const Navbar = () => {
     const pathname = usePathname();
     const [providers, setProviders] = useState(null);
     // const [message, setMessage] = useState(0);
-    const { data: unread_messages, refetch } = useQuery({
+    const { data: unread_messages } = useQuery({
         queryKey: ['unreadMessages'],
         queryFn: fetchUnreadMessages,
         enabled: !!session,//only fetch if user is logged in
@@ -36,7 +37,8 @@ const Navbar = () => {
         })()
     },[]);
 
-   
+    const context = useGlobalContext();
+    // console.log('return context =>', context)
 
 
     return ( 

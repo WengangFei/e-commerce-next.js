@@ -5,7 +5,7 @@ import Messages from "@/models/Messages";
 import Property from "@/models/Property";
 import { revalidatePath } from "next/cache";
 
-const contactForm = async (formData: FormData) => {
+const contactForm = async (prevState : any, formData: FormData) => {
     const propertyId = formData.get('property_id');
     await connectDB();
     const property = await Property.findById(propertyId);
@@ -26,7 +26,7 @@ const contactForm = async (formData: FormData) => {
         return {success: true}
     } catch (error) {
         console.log(error);
-        return {success: false}
+        return {success: 'failed'}
     }
 }
 

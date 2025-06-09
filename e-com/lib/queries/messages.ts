@@ -16,7 +16,9 @@ export const fetchUnreadMessages = async () => {
 export const fetchAllMessages = async () => {
 
     try{
-        const resp = await fetch('/api/messages');
+        const resp = await fetch('/api/messages',{
+            cache: 'no-cache',
+        });
         if(!resp.ok){
             throw new Error('Failed to fetch messages');
         }

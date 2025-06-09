@@ -1,23 +1,34 @@
 'use client';
 
 import contactForm from "@/app/actions/contactForm";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { use, useActionState, useEffect } from "react";
+import { useActionState, useEffect } from "react";
 import { toast } from "react-toastify";
+import ContactFormSubmitButton from "./ContactFormSubmitButton";
 
-const ContactForm = ({ property_id }: { property_id: string}) => {
-  type User = {
+
+ type User = {
     id: string;
     name?: string | null;
     email?: string | null;
     image?: string | null;
   };
-
-    const { data, status } = useSession();
+const ContactForm = ({ property_id }: { property_id: string}) => {
  
-      const [state, formAction] = useActionState( async (_: any, formData: FormData) => {
-        const response = await contactForm(formData); 
-        if (response.success) {
+
+      const { data, status } = useSession();
+ 
+      const [state, formAction] = useActionState( contactForm,{ success: false });
+      
+    // update react query
+    const queryClient = useQueryClient();
+    useEffect(() => {
+      if (state.success) {
+       queryClient.invalidateQueries({ queryKey: ['all-messages']});
+       queryClient.invalidateQueries({ queryKey: ['unreadMessages']});
+      }
+       if (state.success) {
           toast.success("Message sent successfully",{
             position: "top-right",
             autoClose: 1000,
@@ -28,7 +39,8 @@ const ContactForm = ({ property_id }: { property_id: string}) => {
             progress: undefined,
             theme: "light",
           });
-        }else{
+        }
+        if (state.success === 'failed') {
           toast.error("Failed to send message",{
             position: "top-right",
             autoClose: 1000,
@@ -40,10 +52,8 @@ const ContactForm = ({ property_id }: { property_id: string}) => {
             theme: "light",
           });
         }
-        return response;
-      },
-      { success: false }
-    );
+    }, [state.success]);
+
     if (status === "loading") {
       return <p>Loading session...</p>;
     } 
@@ -123,12 +133,7 @@ const ContactForm = ({ property_id }: { property_id: string}) => {
                   ></textarea>
                 </div>
                 <div>
-                  <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline flex items-center justify-center"
-                    type="submit"
-                  >
-                    <i className="fas fa-paper-plane mr-2"></i> Send Message
-                  </button>
+                  <ContactFormSubmitButton />
                 </div>
               </form>
         </div>

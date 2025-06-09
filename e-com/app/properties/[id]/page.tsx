@@ -24,7 +24,7 @@ const PropertyPage = async ( { params }: { params: { id: string } }) => {
             <h1 className='text-sm font-bold text-center text-blue-500 md:text-xl'>
                 Property Details
             </h1>
-            <PropertyDetails details={property!} propertyId={id}/>
+            <PropertyDetails details={JSON.parse(JSON.stringify(property!))} propertyId={id}/>
       
         </div>
      );
