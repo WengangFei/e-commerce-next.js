@@ -5,7 +5,6 @@ import Messages from '@/models/Messages';
 import { getUserSession } from '@/utiles/getUserSession';
 
 export async function GET() {
-    console.log('fetching messages...');
   try {
     await connectDB();
     const session = await getUserSession();
