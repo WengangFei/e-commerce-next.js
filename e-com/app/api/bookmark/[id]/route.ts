@@ -3,13 +3,13 @@ import User from '@/models/User';
 import { getUserSession } from '@/utiles/getUserSession';
 import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
-
+import type { NextRequest } from 'next/server';
 
 export async function POST(
-  request: Request,
-  context: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = params;
   const session = await getUserSession();
 
   await connectDB();
@@ -22,7 +22,6 @@ export async function POST(
 
   const objectId = new mongoose.Types.ObjectId(id);
 
-  // Toggle bookmark
   const exists = user.bookmarks?.some(
     (bookmark: mongoose.Types.ObjectId) => bookmark.equals(objectId)
   );
@@ -36,15 +35,22 @@ export async function POST(
   }
 
   await user.save();
-  
+
   return NextResponse.json(
-    { success: true, message: exists ? 'Bookmark removed' : 'Bookmark added', bookmarked: !exists },
+    {
+      success: true,
+      message: exists ? 'Bookmark removed' : 'Bookmark added',
+      bookmarked: !exists,
+    },
     { status: 200 }
   );
-};
+}
 
-export async function GET(request: Request, context: { params: { id: string } }) {
-  const id = context.params.id;
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
   const session = await getUserSession();
 
   await connectDB();
@@ -59,11 +65,7 @@ export async function GET(request: Request, context: { params: { id: string } })
 
   const exists = user.bookmarks?.some(
     (bookmark: mongoose.Types.ObjectId) => bookmark.equals(objectId)
-  );    
-
-  return NextResponse.json(
-    { success: true, bookmarked: exists },
-    { status: 200 }
   );
-};
 
+  return NextResponse.json({ success: true, bookmarked: exists }, { status: 200 });
+}
