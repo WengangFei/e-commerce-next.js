@@ -18,9 +18,10 @@ import {
 } from "@/components/ui/dialog"
 import { IoIosWarning } from "react-icons/io";
 import Link from "next/link";
+import { iProperty } from "@/utiles/type";
  
 
-const PropertyList = ({ property }) => {
+const PropertyList = ({ property }:{ property: iProperty}) => {
 // console.log('property =>',property);
     //delete property
     const handleDeleteProperty = async (id:string) => {
@@ -40,7 +41,7 @@ const PropertyList = ({ property }) => {
 
 
     return ( 
-            <div className="mb-10 shadow-md p-4 rounded-lg" key={property._id}>
+            <div className="mb-10 shadow-md p-4 rounded-lg" key={property._id as string}>
             <a href="/property.html">
             <Image
                 className="rounded-md object-cover w-fit h-auto"

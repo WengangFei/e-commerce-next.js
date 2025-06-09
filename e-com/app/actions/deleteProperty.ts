@@ -12,7 +12,7 @@ export const deleteProperty = async (id:string) => {
     //connect to DB
     await connectDB();
     //delete from mongoDB
-    const userSession = await getUserSession();
+    const userSession: any = await getUserSession();
     if(!userSession?.user?.id){
         throw new Error('The user not found!');
     }

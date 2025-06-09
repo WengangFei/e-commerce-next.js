@@ -73,17 +73,16 @@ export const AddProperty = async (prevState: any,formData: FormData) => {
         imagesURL.push(upload.secure_url);
        
     }
-    // console.log('imagesURL =>', imagesURL);
-    // //all data good, save data in DB
     await connectDB();
-    const sessionUser = await getUserSession();
-    if(!sessionUser || !sessionUser.user.id){
+    const sessionUser: any = await getUserSession();
+   
+    if(!sessionUser || !sessionUser?.user.id){
         throw new Error('User id not found');
     }
 
     const newProperty = await Property.create({
         ...data,
-        owner: sessionUser.user.id,
+        owner: sessionUser?.user.id,
         images: imagesURL,
     });
 

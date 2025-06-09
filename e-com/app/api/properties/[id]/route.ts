@@ -2,7 +2,7 @@ import connectDB from "@/config/db";
 import Property from "@/models/Property";
 
 
-export const GET = async (request,{params}:any) => {
+export const GET = async (request:Request,{params}:any) => {
     // console.log('id page =>',params);
     try{
         await connectDB();

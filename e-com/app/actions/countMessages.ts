@@ -7,7 +7,7 @@ import { getUserSession } from "@/utiles/getUserSession";
 
 
 export const countUnreadMessages = async () =>{
-    const { user } = await getUserSession();
+    const { user }: any = await getUserSession();
     await connectDB();
     const messagesCount = await Messages.countDocuments({
         receiver: user.id,

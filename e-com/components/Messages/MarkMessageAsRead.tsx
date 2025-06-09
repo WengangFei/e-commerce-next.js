@@ -11,7 +11,7 @@ export const MarkMessageAsReadWrapper = ({id}:{id: string}) => {
         (async ()=>{
             await markMessageRead(id);
             //immediately invalidate the query cache
-            queryClient.invalidateQueries(['unreadMessages']);
+            queryClient.invalidateQueries({queryKey:['unreadMessages']});
         })()
     },[id,queryClient])
 

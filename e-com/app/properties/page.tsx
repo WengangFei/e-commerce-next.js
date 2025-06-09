@@ -9,7 +9,9 @@ import { FaBackwardStep } from "react-icons/fa6";
 
 
 
-const PropertiesPage = async ({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined }}) => {
+const PropertiesPage = async (
+    { searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
+) => {
     
     const page = (await searchParams).page ? Number((await searchParams).page) : 1;
     const pageSize = 3;

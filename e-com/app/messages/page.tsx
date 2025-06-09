@@ -19,7 +19,7 @@ const MessagesPage = () => {
     //delete message
     const deleteMessageHandler = async (messageId: string) => {
         await deleteMessage(messageId);
-        queryClient.invalidateQueries(['unreadMessages'])
+        queryClient.invalidateQueries({queryKey:['unreadMessages']})
         toast('Message deleted successfully!', {
             position: "top-right",
             autoClose: 1000,
@@ -42,7 +42,7 @@ const MessagesPage = () => {
             {
                 messages ? (
                     messages?.map( 
-                        message => (
+                        (message: any) => (
                             <div className='items-center justify-center flex w-full gap-1 ' key={message._id as string}>
                                 <Link href={`/messages/${message._id}`} className='flex-grow'>
                                     <MessagesList key={message._id as string} message={message} />

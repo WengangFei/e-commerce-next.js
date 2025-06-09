@@ -4,24 +4,22 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import { Location } from '@/utiles/type';
 
 
-delete L.Icon.Default.prototype._getIconUrl;
+delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: '/leaflet/marker-icon-2x.png',
     iconUrl: '/leaflet/marker-icon.png',
     shadowUrl: '/leaflet/marker-shadow.png',
 });
 
-const LeafletMap = ({ location }) => {
+const LeafletMap = ({ location }: { location: Location }) => {
   const [coords, setCoords] = useState<[number, number] | null>(null);
   const [mapAvailable, setMapAvailable] = useState(false);
 
   useEffect(() => {
-    const { street, city, state, zipcode } = location;
+    const { street, city, state, zipcode }: Location = location;
     const address = `${street}, ${city}, ${state}, ${zipcode}`;
     const encodedAddress = encodeURIComponent(address);
 

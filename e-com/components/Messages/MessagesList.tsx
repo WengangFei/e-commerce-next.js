@@ -9,7 +9,7 @@ import { MdSendToMobile } from "react-icons/md";
 
 
 const MessagesList = ({ message }:{message: any}) => {
-
+  
     const { data: sender } = useQuery({
         queryKey: ['message-sender', message.sender],
         queryFn: ({ queryKey }) =>fetchMessageSender(queryKey[1]),
@@ -31,7 +31,7 @@ const MessagesList = ({ message }:{message: any}) => {
             <div className='flex flex-col w-full'>
                 <div className='flex items-center gap-1'>
                      <MdSendToMobile color='#3b82f6' size={10}/>
-                    <p className='text-xs font-bold'>{message.property.name}</p>
+                    <p className='text-xs font-bold'>{message.property?.name ?? 'No Property'}</p>
                 </div>
                
                 <p className='text-xs'>{message.message.length > 100 ? message.message.slice(0,50) + '...' : message.message}</p>

@@ -8,9 +8,14 @@ import mongoose from "mongoose";
 const SavedProperties = async () => {
 
     await connectDB();
-    const SavedPropertiesArray  = (await User.findById(
-        (await getUserSession()).user.id
-    ).select('bookmarks')).bookmarks as mongoose.Types.ObjectId[];
+    const session: any = await getUserSession();
+
+    if (!session || !session.user) {
+    throw new Error("User session not found");
+    }
+
+    const userId = session.user.id;
+    const SavedPropertiesArray  = (await User.findById(userId).select('bookmarks')).bookmarks as mongoose.Types.ObjectId[];
     //retrieve saved properties
     const properties = await Property.find({
         _id: {

@@ -29,9 +29,21 @@ export interface iProperty {
         email: string;
         phone: string;
     };
+    _v: number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface AuthOption {
     providers: any;
     callbacks: any;
 }
+
+export type Location = {
+  lat: number;
+  lng: number;
+  street: string;
+  city: string;
+  state: string;
+  zipcode: string;
+};

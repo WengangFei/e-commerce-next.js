@@ -1,6 +1,6 @@
 'use client';
 
-import { iProperty } from "@/utiles/type";
+import { iProperty, Location } from "@/utiles/type";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaBed, FaEnvelope, FaPhone, FaUser } from "react-icons/fa";
 import { FaBath } from "react-icons/fa";
@@ -147,7 +147,7 @@ const PropertyDetails = ({ details, propertyId }: { details: iProperty, property
                 <div className='p-4 rounded-lg bg-white'>
                     <p className='my-4 py-1 text-[8px] bg-blue-500 text-white w-fit px-1 rounded-md md:text-[10px]'>Map:</p>
                     <div className='w-full'>
-                      <MapWrapper location={details.location}/>
+                      <MapWrapper location={details.location as Location}/>
                     </div>
                 </div>
 

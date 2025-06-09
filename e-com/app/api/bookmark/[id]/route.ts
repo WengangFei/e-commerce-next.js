@@ -7,10 +7,10 @@ import type { NextRequest } from 'next/server';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
-  const session = await getUserSession();
+  const id = (await params).id; 
+  const session: any = await getUserSession();
 
   await connectDB();
 
@@ -47,11 +47,11 @@ export async function POST(
 }
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+   request: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
-  const session = await getUserSession();
+  const id = (await params).id; 
+  const session: any = await getUserSession();
 
   await connectDB();
 

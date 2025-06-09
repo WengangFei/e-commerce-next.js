@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache";
 
 
 
-const editProperty = async (_:any,formData: FormData ): Promise<{
+const editProperty = async (prevState:any,formData: FormData ): Promise<{
     success: boolean;
     message: string;
 }> => {
@@ -34,8 +34,10 @@ const editProperty = async (_:any,formData: FormData ): Promise<{
         
         for (const image of formData.getAll('images')) {
             if (!(image instanceof File)) {
-                return Response.json({ error: 'Expected a file upload' }, 
-                    { status: 400 });
+                return {
+                    success: false,
+                    message: 'Expected a file upload'
+                };
             }
             //convert image to buffer
             const imageBuffer = await image.arrayBuffer() ;

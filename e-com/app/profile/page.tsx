@@ -5,10 +5,11 @@ import Image from "next/image";
 
 import { deleteProperty } from "../actions/deleteProperty";
 import PropertyList from "@/components/profile/PropertyList";
+import { iProperty } from "@/utiles/type";
 
 const Profile = async () => {
     await connectDB();
-    const userSession = await getUserSession();
+    const userSession: any = await getUserSession();
     // console.log(userSession);
     //serialize data
     const data = (await Property.find({id: userSession?.user?.id}).lean()).map(item =>({
@@ -59,7 +60,7 @@ const Profile = async () => {
                             {
                                 data.length === 0 ? (<p className="text-gray-600 mb-4">No Properties Found</p>) : (
                                     data.map( property => (
-                                        <PropertyList key={property._id}  property={property}/>
+                                        <PropertyList key={property._id}  property={property as any}/>
                                     ))
                                 )
                             }

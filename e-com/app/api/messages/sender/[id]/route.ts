@@ -3,11 +3,14 @@
 import connectDB from '@/config/db';
 import User from '@/models/User';
 import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
+export async function GET(
+  req: NextRequest, 
+  { params }: { params: Promise<{ id: string }> }
+  ) {
 
-  const { id } = await context.params;
+  const id = (await params).id; 
 
   try {
     await connectDB();

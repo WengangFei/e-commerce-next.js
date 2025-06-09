@@ -2,12 +2,12 @@ import connectDB from "@/config/db";
 import User from "@/models/User";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import type { AuthOptions } from "next-auth";
 
 
-console.log('Starting google provider......')
 
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
     // debug: true,
     providers: [
         GoogleProvider({
@@ -36,7 +36,6 @@ export const authOptions = {
     callbacks: {
         //Invoked on successful login
         async signIn({ user, account, profile, email, credentials }) {      
-            console.log("signIn ..........");
             await connectDB();
             //create user in db
             if (!profile?.email) {
@@ -51,7 +50,7 @@ export const authOptions = {
                     await User.create({
                         email: profile.email,
                         username: profile.name || "NewUser",
-                        image: profile.avatar_url || profile.image || "", // GitHub uses `avatar_url`
+                        image: (profile as any).avatar_url || profile.image || "", // GitHub uses `avatar_url`
                     });
                 } catch (err) {
                     console.log("User creation error:", err);
@@ -62,8 +61,7 @@ export const authOptions = {
             return true;
         },
         //session callback function that modifies the session object before it is returned to the client
-        async session({ session }) {
-            // console.log('create session after sign in => ', session);
+        async session({ session }: any) {
            
             const user = await User.findOne({ email: session.user.email });
             if (user) {

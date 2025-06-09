@@ -15,7 +15,7 @@ const AddPropertiesForm = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (state.success) {
+        if ('success' in state && state.success) {
             setLoader(false);
             const timeout = setTimeout(() => {
             router.push(`/properties/${state.property_id}`);
@@ -23,7 +23,7 @@ const AddPropertiesForm = () => {
 
             return () => clearTimeout(timeout); // clean up on unmount
         }
-    }, [state.success]);
+    }, [state]);
    
   return (
     <div className="container mx-auto py-8 p-4 md:py-8">
@@ -52,13 +52,17 @@ const AddPropertiesForm = () => {
         </div>
         <div className="mb-4">
             <label className="block text-gray-700 font-bold mb-2"
-            >Listing Name</label
-            >
+            >Listing Name
+            </label>
             <input
             type="text"
             id="name"
             name="name"
-            className={`border rounded w-full py-2 px-3 mb-2 ${Object.keys(state?.fields?.fieldErrors || {})?.includes('name') ? 'border-red-500' : ''}`}
+            className={`border rounded w-full py-2 px-3 mb-2 ${
+            'fields' in state && state.fields && Object.keys(state.fields.fieldErrors || {}).includes('name')
+                ? 'border-red-500'
+                : ''
+            }`}
             placeholder="eg. Beautiful Apartment In Miami"
             required
             defaultValue={(state as any)?.fields_values?.name || ''}
@@ -74,13 +78,13 @@ const AddPropertiesForm = () => {
             id="description"
             name="description"
             className="border rounded w-full py-2 px-3"
-            rows="4"
+            rows={4}
             placeholder="Add an optional description of your property"
-            defaultValue={state?.fields_values?.description || ''}
+            defaultValue={(state as any) ?.fields_values?.description || ''}
             ></textarea>
         </div>
 
-        <div className={`mb-4 bg-blue-50 p-4 ${Object?.keys(state?.fields?.fieldErrors || {})?.includes('location') ? 'bg-red-200' : ''}`}>
+        <div className={`mb-4 bg-blue-50 p-4 ${Object?.keys((state as any)?.fields?.fieldErrors || {})?.includes('location') ? 'bg-red-200' : ''}`}>
             <label className="block text-gray-700 font-bold mb-2">Location</label>
             <input
             type="text"
@@ -88,7 +92,7 @@ const AddPropertiesForm = () => {
             name="location.street"
             className="border rounded w-full py-2 px-3 mb-2"
             placeholder="Street"
-            defaultValue={state?.fields_values?.location?.street || ''}
+            defaultValue={(state as any)?.fields_values?.location?.street || ''}
             />
             <input
             type="text"
@@ -97,7 +101,7 @@ const AddPropertiesForm = () => {
             className="border rounded w-full py-2 px-3 mb-2"
             placeholder="City"
             required
-            defaultValue={state?.fields_values?.location?.city || ''}
+            defaultValue={(state as any)?.fields_values?.location?.city || ''}
             />
             <input
             type="text"
@@ -106,7 +110,7 @@ const AddPropertiesForm = () => {
             className="border rounded w-full py-2 px-3 mb-2"
             placeholder="State"
             required
-            defaultValue={state?.fields_values?.location?.state || ''}
+            defaultValue={(state as any)?.fields_values?.location?.state || ''}
             />
             <input
             type="text"
@@ -115,7 +119,7 @@ const AddPropertiesForm = () => {
             className="border rounded w-full py-2 px-3 mb-2"
             placeholder="Zipcode"
             required
-            defaultValue={state?.fields_values?.location?.zipcode || ''}
+            defaultValue={(state as any)?.fields_values?.location?.zipcode || ''}
             />
         </div>
 
@@ -130,7 +134,7 @@ const AddPropertiesForm = () => {
                 name="beds"
                 className="border rounded w-full py-2 px-3"
                 required
-                defaultValue={state?.fields_values?.beds || ''}
+                defaultValue={(state as any)?.fields_values?.beds || ''}
             />
             </div>
             <div className="w-full sm:w-1/3 px-2">
@@ -143,7 +147,7 @@ const AddPropertiesForm = () => {
                 name="baths"
                 className="border rounded w-full py-2 px-3"
                 required
-                defaultValue={state?.fields_values?.baths || ''}
+                defaultValue={(state as any)?.fields_values?.baths || ''}
             />
             </div>
             <div className="w-full sm:w-1/3 pl-2">
@@ -158,7 +162,7 @@ const AddPropertiesForm = () => {
                 name="square_feet"
                 className="border rounded w-full py-2 px-3"
                 required
-                defaultValue={typeof state?.fields_values?.square_feet === 'string' ? state.fields_values.square_feet : ''}
+                defaultValue={typeof (state as any)?.fields_values?.square_feet === 'string' ? (state as any).fields_values.square_feet : ''}
             />
             </div>
         </div>
@@ -175,7 +179,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Wifi"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Wifi')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Wifi')}
                     />
                     <label htmlFor="amenity_wifi">Wifi</label>
                 </div>
@@ -186,7 +190,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Full kitchen"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Full kitchen')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Full kitchen')}
                     />
                     <label htmlFor="amenity_kitchen">Full kitchen</label>
                 </div>
@@ -197,7 +201,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Washer & Dryer"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Washer & Dryer')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Washer & Dryer')}
                     />
                     <label htmlFor="amenity_washer_dryer">Washer & Dryer</label>
                 </div>
@@ -208,7 +212,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Free Parking"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Free Parking')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Free Parking')}
                     />
                     <label htmlFor="amenity_free_parking">Free Parking</label>
                 </div>
@@ -219,7 +223,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Swimming Pool"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Swimming Pool')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Swimming Pool')}
                     />
                     <label htmlFor="amenity_pool">Swimming Pool</label>
                 </div>
@@ -230,7 +234,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Hot Tub"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Hot Tub')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Hot Tub')}
                     />
                     <label htmlFor="amenity_hot_tub">Hot Tub</label>
                 </div>
@@ -241,7 +245,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="24/7 Security"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('24/7 Security')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('24/7 Security')}
                     />
                     <label htmlFor="amenity_24_7_security">24/7 Security</label>
                 </div>
@@ -252,7 +256,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Wheelchair Accessible"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Wheelchair Accessible')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Wheelchair Accessible')}
                     />
                     <label htmlFor="amenity_wheelchair_accessible"
                     >Wheelchair Accessible</label
@@ -265,7 +269,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Elevator Access"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Elevator Access')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Elevator Access')}
                     />
                     <label htmlFor="amenity_elevator_access">Elevator Access</label>
                 </div>
@@ -276,7 +280,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Dishwasher"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Dishwasher')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Dishwasher')}
                     />
                     <label htmlFor="amenity_dishwasher">Dishwasher</label>
                 </div>
@@ -287,7 +291,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Gym/Fitness Center"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Gym/Fitness Center')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Gym/Fitness Center')}
                     />
                     <label htmlFor="amenity_gym_fitness_center"
                     >Gym/Fitness Center</label
@@ -300,7 +304,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Air Conditioning"
                     className="mr-2"    
-                    defaultChecked={state?.fields_values?.amenities?.includes('Air Conditioning')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Air Conditioning')}
                     />
                     <label htmlFor="amenity_air_conditioning">Air Conditioning</label>
                 </div>
@@ -311,7 +315,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Balcony/Patio"
                     className="mr-2"    
-                    defaultChecked={state?.fields_values?.amenities?.includes('Balcony/Patio')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Balcony/Patio')}
                     />
                     <label htmlFor="amenity_balcony_patio">Balcony/Patio</label>
                 </div>
@@ -322,7 +326,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Smart TV"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Smart TV')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Smart TV')}
                     />
                     <label htmlFor="amenity_smart_tv">Smart TV</label>
                 </div>
@@ -333,7 +337,7 @@ const AddPropertiesForm = () => {
                     name="amenities"
                     value="Coffee Maker"
                     className="mr-2"
-                    defaultChecked={state?.fields_values?.amenities?.includes('Coffee Maker')}
+                    defaultChecked={(state as any)?.fields_values?.amenities?.includes('Coffee Maker')}
                     />
                     <label htmlFor="amenity_coffee_maker">Coffee Maker</label>
                 </div>
@@ -354,7 +358,7 @@ const AddPropertiesForm = () => {
                 id="weekly_rate"
                 name="rates.weekly"
                 className="border rounded w-full py-2 px-3"
-                defaultValue={state?.fields_values?.rates?.weekly as string}
+                defaultValue={(state as any)?.fields_values?.rates?.weekly as string}
                 />
             </div>
             <div className="flex items-center">
@@ -364,7 +368,7 @@ const AddPropertiesForm = () => {
                 id="monthly_rate"
                 name="rates.monthly"
                 className="border rounded w-full py-2 px-3"
-                defaultValue={state?.fields_values?.rates?.monthly as string}
+                defaultValue={(state as any)?.fields_values?.rates?.monthly as string}
                 />
             </div>
             <div className="flex items-center">
@@ -374,7 +378,7 @@ const AddPropertiesForm = () => {
                 id="nightly_rate"
                 name="rates.nightly"
                 className="border rounded w-full py-2 px-3"
-                defaultValue={state?.fields_values?.rates?.nightly as string}
+                defaultValue={(state as any)?.fields_values?.rates?.nightly as string}
                 />
             </div>
             </div>
@@ -392,7 +396,7 @@ const AddPropertiesForm = () => {
             name="seller_info.name"
             className="border rounded w-full py-2 px-3"
             placeholder="Name"
-            defaultValue={typeof state?.fields_values?.seller_info?.name === 'string' ? state?.fields_values?.seller_info?.name : ''}
+            defaultValue={typeof (state as any)?.fields_values?.seller_info?.name === 'string' ? (state as any)?.fields_values?.seller_info?.name : ''}
             />
         </div>
         <div className="mb-4">
@@ -408,7 +412,7 @@ const AddPropertiesForm = () => {
             className="border rounded w-full py-2 px-3"
             placeholder="Email address"
             required
-            defaultValue={state?.fields_values?.seller_info?.email as string}
+            defaultValue={(state as any)?.fields_values?.seller_info?.email as string}
             />
         </div>
         <div className="mb-4">
@@ -423,7 +427,7 @@ const AddPropertiesForm = () => {
             name="seller_info.phone"
             className="border rounded w-full py-2 px-3"
             placeholder="Phone"
-            defaultValue={state?.fields_values?.seller_info?.phone as string}
+            defaultValue={(state as any)?.fields_values?.seller_info?.phone as string}
             />
         </div>
 
@@ -451,7 +455,7 @@ const AddPropertiesForm = () => {
             { 
                 loader ? (
                     <div className='flex items-center justify-center gap-6'>
-                        <img src={loader.src} alt='loader' className='w-6 h-6 animate-spin'/>
+                        <img src='/vercel.svg' alt='loader' className='w-6 h-6 animate-spin'/>
                         Adding Property...
                     </div>
                 
@@ -461,17 +465,17 @@ const AddPropertiesForm = () => {
         </div>
         </form>
         {
-            state?.success ? (
+            (state as any)?.success ? (
                 <div className="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                     <span className="block sm:inline">Property added successfully!</span>
                 </div>
             ):(
-                <div className={`mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative ${state?.fields?.fieldErrors ? 'block' : 'hidden'}`}  role="alert">
+                <div className={`mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative ${(state as any)?.fields?.fieldErrors ? 'block' : 'hidden'}`}  role="alert">
                     { 
-                        state?.fields?.fieldErrors &&
-                        Object.values(state?.fields?.fieldErrors).map( (error,index) => (
+                        (state as any)?.fields?.fieldErrors &&
+                        Object.values((state as any)?.fields?.fieldErrors).map( (error,index) => (
                             <div key={index}>
-                                <span className="block sm:inline">{error}</span>
+                                <span className="block sm:inline">{error as string}</span>
                             </div>
                         ))
                     }

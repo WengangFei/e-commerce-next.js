@@ -4,9 +4,11 @@ import Messages from "@/models/Messages";
 
 
 
-const MessageContent = async ({ params }: {params: {id: string}}) => {
+const MessageContent = async (
+    { params }: { params: Promise<{ id: string }> }
+) => {
 
-    const {id} = await params;
+    const id = (await params).id; 
     await connectDB();
     const data = (await Messages.find({_id: id}).populate('sender','username').lean())[0];
     

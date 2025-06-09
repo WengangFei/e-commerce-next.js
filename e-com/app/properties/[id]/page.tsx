@@ -7,9 +7,11 @@ import Link from "next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 
-const PropertyPage = async ( { params }: { params: { id: string } }) => {
+const PropertyPage = async ( 
+    { params }: { params: Promise<{ id: string }> }
+) => {
     await connectDB();
-    const { id } = await params;
+    const id = (await params).id; 
     const property = await Property.findById(id).lean<iProperty>();
 
     return ( 
