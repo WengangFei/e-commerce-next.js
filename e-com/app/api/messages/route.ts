@@ -4,8 +4,11 @@ import connectDB from '@/config/db';
 import Messages from '@/models/Messages';
 import { getUserSession } from '@/utiles/getUserSession';
 import Property from '@/models/Property';
+import mongoose from 'mongoose';
 
 export async function GET() {
+  console.log("Registered models:", mongoose.modelNames());
+
   try {
     await connectDB();
 
