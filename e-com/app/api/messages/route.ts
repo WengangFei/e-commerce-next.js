@@ -7,14 +7,12 @@ import Property from '@/models/Property';
 import mongoose from 'mongoose';
 
 export async function GET() {
-  console.log("Registered models:", mongoose.modelNames());
 
   try {
     await connectDB();
-
+    //Explicitly check/register models (optional safeguard)
+    const Property = (await import('@/models/Property')).default; // Dynamic import
     const session: any = await getUserSession();
-    console.log("Session in /api/messages:", session);
-
     if (!session || !session.user || !session.user.id) {
       console.error("No valid user session.");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
