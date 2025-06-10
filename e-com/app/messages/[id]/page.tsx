@@ -10,6 +10,7 @@ const MessageContent = async (
 
     const id = (await params).id; 
     await connectDB();
+    const User = (await import('@/models/User')).default; // Dynamic import
     const data = (await Messages.find({_id: id}).populate('sender','username').lean())[0];
     
     return ( 
