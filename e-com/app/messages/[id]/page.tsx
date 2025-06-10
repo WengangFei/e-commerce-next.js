@@ -1,7 +1,7 @@
 import { MarkMessageAsReadWrapper } from "@/components/Messages/MarkMessageAsRead";
 import connectDB from "@/config/db";
 import Messages from "@/models/Messages";
-
+import User from "@/models/User";
 
 
 const MessageContent = async (

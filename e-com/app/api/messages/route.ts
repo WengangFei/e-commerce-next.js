@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/config/db';
 import Messages from '@/models/Messages';
 import { getUserSession } from '@/utiles/getUserSession';
+import Property from '@/models/Property';
 
 export async function GET() {
   try {
