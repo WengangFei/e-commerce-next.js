@@ -10,7 +10,7 @@ import { signOut, signIn, useSession, getProviders } from 'next-auth/react';
 import { FaGithub } from "react-icons/fa";
 import { useQuery } from '@tanstack/react-query';
 import { fetchUnreadMessages } from '@/lib/queries/messages';
-import { useGlobalContext } from '@/context/GlobalContext';
+
 
 
 
@@ -36,9 +36,6 @@ const Navbar = () => {
             setProviders(res as any);
         })()
     },[]);
-
-    const context = useGlobalContext();
-    // console.log('return context =>', context)
 
 
     return ( 
@@ -87,8 +84,9 @@ const Navbar = () => {
                                 alt="PropertyPulse"
                             />
 
-                            <span className="hidden md:block text-white text-2xl font-bold ml-2"
-                                >PropertyPulse</span>
+                            <span className="hidden md:block text-white text-2xl font-bold ml-2">
+                                PropertyPulse
+                            </span>
                             </Link>
                             {/* <!-- Desktop Menu Hidden below md screens --> */}
                             <div className="hidden md:ml-6 md:block">
@@ -123,7 +121,13 @@ const Navbar = () => {
                         {/* <!-- Right Side Menu (Logged Out) --> */}
                         {
                             !session && (
-                                <div className="hidden md:block md:ml-6">
+                                <div className="hidden md:block md:ml-6 p-2">
+                                    <Link href='/login'>
+                                    <p 
+                                    className='text-white bg-gray-700 mb-2 text-sm hover:bg-gray-900 hover:text-white hover:cursor-pointer rounded-md px-2 py-2 text-center'>
+                                        Login or Register
+                                    </p>
+                                    </Link>
                                     <div className="flex items-center">
                                         {
                                             providers && Object.values(providers).map((provider) => (
@@ -137,7 +141,7 @@ const Navbar = () => {
                                                         {
                                                             (provider as any)?.name === 'Google' ? (
                                                                 <Image 
-                                                                    src={googleIcon}
+                                                                    src={googleIcon }
                                                                     alt='google icon'
                                                                     className='w-4 h-4 mr-2 rounded-full'
                                                                 />
@@ -146,7 +150,7 @@ const Navbar = () => {
                                                             )
                                                         }
                                                         
-                                                        <span className='mr-1'>Login or Register</span>
+                                                        <span>{(provider as any)?.name}</span>
                                                     </button>
                                                 </div>
                                             ))

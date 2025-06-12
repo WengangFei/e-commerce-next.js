@@ -26,7 +26,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     
     <html>
       <body>
-        
         <QueryProviders>
           <AuthProvider>
             <GlobalProvider>

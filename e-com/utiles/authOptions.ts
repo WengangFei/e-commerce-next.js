@@ -4,22 +4,12 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import type { AuthOptions } from "next-auth";
 
-
-
-
 export const authOptions: AuthOptions = {
     // debug: true,
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-            authorization: {//not auto choose last login google account
-                params: {
-                    prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code",
-                },
-            },
             httpOptions: {
                 timeout: 100000
             }

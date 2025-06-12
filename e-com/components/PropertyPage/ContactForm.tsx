@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useActionState, useEffect } from "react";
 import { toast } from "react-toastify";
-import ContactFormSubmitButton from "./ContactFormSubmitButton";
+import FormSubmitButton from "../FormSubmitButton";
 
 
  type User = {
@@ -133,7 +133,7 @@ const ContactForm = ({ property_id }: { property_id: string}) => {
                   ></textarea>
                 </div>
                 <div>
-                  <ContactFormSubmitButton />
+                  <FormSubmitButton />
                 </div>
               </form>
         </div>
