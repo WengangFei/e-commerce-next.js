@@ -18,7 +18,6 @@ const ContactForm = ({ property_id }: { property_id: string}) => {
  
       const { data, status } = useSession();
       const [state, formAction] = useActionState( contactForm,{ success: '', message:'' });
-      console.log(state.success);
     // update react query
     const queryClient = useQueryClient();
     useEffect(() => {
