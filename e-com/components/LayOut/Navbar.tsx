@@ -330,7 +330,7 @@ const Navbar = () => {
                                                             className="flex items-center text-white bg-gray-700 text-[12px] hover:bg-gray-900 hover:text-white 
                                                             hover:cursor-pointer
                                                             rounded-md px-1 py-1 mx-1 my-1"
-                                                            onClick={() => signIn((provider as any).provider.id)}
+                                                            onClick={() => signIn((provider as any).id)}
                                                         >
                                                             Sign in with
                                                            
