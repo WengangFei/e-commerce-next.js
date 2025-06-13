@@ -2,7 +2,7 @@
 
 import connectDB from "@/config/db";
 import User from "@/models/User";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 
 const signupFormAction = async (prevState: any, formData:{
