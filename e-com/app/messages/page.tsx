@@ -45,13 +45,15 @@ const MessagesPage = () => {
                         (message: any) => (
                             <div className='items-center justify-center flex w-full gap-1 ' key={message._id as string}>
                                 <Link href={`/messages/${message._id}`} className='flex-grow'>
-                                    <MessagesList key={message._id as string} message={message} />
+                                    <MessagesList key={message?._id as string} message={message} />
                                 </Link>
                                 <div className='flex flex-col gap-2 bg-blue-300 px-4 py-2 rounded-lg'>
                                     <button onClick={() => deleteMessageHandler(message._id)}>
                                     <MdDeleteForever color='red' size={20} className='hover:cursor-pointer hover:scale-130'/>
                                     </button>
-                                    <span className='text-[8px] font-bold text-black '>Delete</span>
+                                    <span className='text-[8px] font-bold text-black '>
+                                        Delete
+                                    </span>
                                 </div>
                                 
                             </div>

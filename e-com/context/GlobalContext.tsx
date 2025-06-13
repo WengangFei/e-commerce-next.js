@@ -22,7 +22,6 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() =>{
     (async ()=>{
       const count = await countUnreadMessages();
-      console.log('count =>',count);
       setUnreadCount(count!);
     })()
   },[])

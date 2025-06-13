@@ -6,6 +6,7 @@ import formatDate from "@/utiles/timeFormat";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { MdSendToMobile } from "react-icons/md";
+import profileDefault from '@/assets/images/profile.png';
 
 
 const MessagesList = ({ message }:{message: any}) => {
@@ -14,13 +15,13 @@ const MessagesList = ({ message }:{message: any}) => {
         queryKey: ['message-sender', message.sender],
         queryFn: ({ queryKey }) =>fetchMessageSender(queryKey[1]),
     })
-
+console.log('sender =>',sender);
     return ( 
         
         <div className={`${ message.is_read ? 'bg-white' : 'bg-yellow-200'} flex gap-4 my-2 shadow-md p-1 rounded-lg hover:bg-blue-100 hover:cursor-pointer`}>
             <div className='w-12 h-12 relative flex flex-col items-center'>
                 <Image
-                    src={sender ? sender.image : '/globe.svg'}
+                    src={sender?.image ? sender.image : profileDefault}
                     alt="profile"
                     className="object-cover rounded-full"
                     height={35}

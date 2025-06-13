@@ -123,10 +123,10 @@ const Navbar = () => {
                             !session && (
                                 <div className="hidden md:block md:ml-6 p-2">
                                     <Link href='/login'>
-                                    <p 
-                                    className='text-white bg-gray-700 mb-2 text-sm hover:bg-gray-900 hover:text-white hover:cursor-pointer rounded-md px-2 py-2 text-center'>
-                                        Login or Register
-                                    </p>
+                                        <p 
+                                        className='text-white bg-gray-700 mb-2 text-sm hover:bg-gray-900 hover:text-white hover:cursor-pointer rounded-md px-2 py-2 text-center'>
+                                            Login or Register
+                                        </p>
                                     </Link>
                                     <div className="flex items-center">
                                         {
@@ -315,30 +315,37 @@ const Navbar = () => {
                             
                             {
                                 !session && (
-                                    <div className="md:block md:ml-6">
-                                        <div className="flex items-center">
+                                    <div className="md:block md:ml-6 flex flex-col items-center">
+                                        <div className="mr-auto">
+                                            <Link href='/login'>
+                                                <p 
+                                                className='text-white bg-gray-700 mb-2 text-sm hover:bg-gray-900 hover:text-white hover:cursor-pointer rounded-md px-2 py-2 text-center'>
+                                                    Login or Register
+                                                </p>
+                                            </Link>
                                             {
-                                                providers && Object.values(providers).map((provider) => (
-                                                    <div key={(provider as any).provider.name}>
+                                                providers && Object.values(providers).filter((provider) => (provider as any)?.name !== 'credentials').map((provider) => (
+                                                    <div key={(provider as any).provider?.name}>
                                                         <button
                                                             className="flex items-center text-white bg-gray-700 text-[12px] hover:bg-gray-900 hover:text-white 
                                                             hover:cursor-pointer
-                                                            rounded-md px-1 py-1 mx-1"
+                                                            rounded-md px-1 py-1 mx-1 my-1"
                                                             onClick={() => signIn((provider as any).provider.id)}
                                                         >
+                                                            Sign in with
+                                                           
                                                             {
-                                                                (provider as any).provider.name === 'Google' ? (
+                                                                (provider as any)?.name === 'Google' ? (
                                                                     <Image 
                                                                         src={googleIcon}
                                                                         alt='google icon'
-                                                                        className='w-4 h-4 mr-2 rounded-full'
+                                                                        className='w-4 h-4 mx-1 rounded-full'
                                                                     />
                                                                 ) : (
-                                                                    <FaGithub size={15} className='mr-1'/>
+                                                                    <FaGithub size={15} className='mx-1'/>
                                                                 )
                                                             }
                                                             
-                                                            <span className='mr-1'>Login or Register</span>
                                                         </button>
                                                     </div>
                                                 ))

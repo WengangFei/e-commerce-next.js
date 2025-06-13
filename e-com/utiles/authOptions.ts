@@ -21,7 +21,6 @@ export const authOptions: AuthOptions = {
                     throw new Error("Missing email or password");
                 }
                 const user = await User.findOne({ email: credentials?.email });
-                
                 if (!user) {
                     throw new Error("No user found with this email");
                 }
