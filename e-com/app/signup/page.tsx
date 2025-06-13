@@ -63,9 +63,9 @@ const SignupPage = () => {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
     const formSubmitHandler = async (data: z.infer<typeof formSchema>) =>{
-    startTransition(async () => {
-        await formAction(data);
-    });
+        startTransition(async () => {
+            await formAction(data);
+        });
     }
     //update the state
     // Handle toast after the state updates
@@ -149,11 +149,11 @@ const SignupPage = () => {
                         { 
                             isPending ? (
                                 <div className='flex items-center justify-center'>
-                                    <p>Submitting......</p>
+                                    Submitting......
                                     <FaBasketballBall className='animate-spin ml-2'/>
                                 </div>
                             ) : (
-                                <p>Submit</p>
+                                <>Submit</>
                             )
                         }
                     </Button>

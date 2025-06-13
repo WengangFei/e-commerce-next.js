@@ -3,10 +3,35 @@ import User from "@/models/User";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import type { AuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt"; 
 
 export const authOptions: AuthOptions = {
     // debug: true,
     providers: [
+        CredentialsProvider({
+            name: "credentials",
+            credentials: {
+                email: { label: "Email", type: "email", placeholder: "email" },
+                password: { label: "Password", type: "password" },
+            },
+            async authorize(credentials) {
+                await connectDB();
+                if (!credentials?.email || !credentials.password) {
+                    throw new Error("Missing email or password");
+                }
+                const user = await User.findOne({ email: credentials?.email });
+                
+                if (!user) {
+                    throw new Error("No user found with this email");
+                }
+                const isPasswordValid = await bcrypt.compare(credentials?.password as string, user.password);
+                if (!isPasswordValid) {
+                    throw new Error("Invalid password");
+                }
+                return { id: user._id.toString(), email: user.email, name: user.username };
+            },
+        }),
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
@@ -25,22 +50,22 @@ export const authOptions: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         //Invoked on successful login
-        async signIn({ user, account, profile, email, credentials }) {      
+        async signIn({ user, account, email, credentials }) {      
             await connectDB();
             //create user in db
-            if (!profile?.email) {
+            if (!user?.email) {
                 console.log("Email not available in profile");
                 return false;
             }
 
-            const userExist = await User.findOne({ email: profile.email });
+            const userExist = await User.findOne({ email: user.email });
 
             if (!userExist) {
                 try {
                     await User.create({
-                        email: profile.email,
-                        username: profile.name || "NewUser",
-                        image: (profile as any).avatar_url || profile.image || "", // GitHub uses `avatar_url`
+                        email: user.email,
+                        username: user.name || "NewUser",
+                        image: (user as any).avatar_url || user.image || "", // GitHub uses `avatar_url`
                     });
                 } catch (err) {
                     console.log("User creation error:", err);
@@ -58,8 +83,6 @@ export const authOptions: AuthOptions = {
                 session.user.id = user._id.toString();
             }
             return session;
-            
-            
         }
     },
 };

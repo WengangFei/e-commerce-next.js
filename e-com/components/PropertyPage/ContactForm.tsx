@@ -16,43 +16,40 @@ import FormSubmitButton from "../FormSubmitButton";
   };
 const ContactForm = ({ property_id }: { property_id: string}) => {
  
-
       const { data, status } = useSession();
- 
-      const [state, formAction] = useActionState( contactForm,{ success: false });
-      
+      const [state, formAction] = useActionState( contactForm,{ success: '', message:'' });
+      console.log(state.success);
     // update react query
     const queryClient = useQueryClient();
     useEffect(() => {
-      if (state.success) {
+      if (state.success === 'success') {
        queryClient.invalidateQueries({ queryKey: ['all-messages']});
        queryClient.invalidateQueries({ queryKey: ['unreadMessages']});
+       toast.success("Message sent successfully",{
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
       }
-       if (state.success) {
-          toast.success("Message sent successfully",{
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
-        if (state.success === 'failed') {
-          toast.error("Failed to send message",{
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
-    }, [state.success]);
+
+      if (state.success === 'failed') {
+        toast.error(state.message as string,{
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }, [state]);
 
     if (status === "loading") {
       return <p>Loading session...</p>;

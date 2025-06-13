@@ -6,6 +6,8 @@ import Property from "@/models/Property";
 import { revalidatePath } from "next/cache";
 
 const contactForm = async (prevState : any, formData: FormData) => {
+    if(!formData.get('phone') || !formData.get('message')) return {success: 'failed', message:'Please fill all the fields'};
+
     const propertyId = formData.get('property_id');
     await connectDB();
     const property = await Property.findById(propertyId);
@@ -23,10 +25,10 @@ const contactForm = async (prevState : any, formData: FormData) => {
     try {
         const sendMessage = await Messages.create(data);
         revalidatePath('/messages','page');
-        return {success: true}
+        return {success: 'success',message: 'Message sent successfully'}
     } catch (error) {
         console.log(error);
-        return {success: 'failed'}
+        return {success: 'failed',message: error}
     }
 }
 

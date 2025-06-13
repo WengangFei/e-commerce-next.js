@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import bcrypt from 'bcrypt';
 
 
 const UserSchema = new Schema({
@@ -32,6 +33,10 @@ const UserSchema = new Schema({
     {
         timestamps: true,
     });
+
+    UserSchema.methods.comparePassword = async function (password: string) {
+        return await bcrypt.compare(password, this.password);
+    }
 //if the model already exists (e.g., from a previous call), reuse it. || otherwise, create a new model with the name "User" and the UserSchema.
 const User = models.User || model("User", UserSchema);
 export default User;

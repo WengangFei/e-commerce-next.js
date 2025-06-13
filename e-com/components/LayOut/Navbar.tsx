@@ -21,7 +21,7 @@ const Navbar = () => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
     const pathname = usePathname();
-    const [providers, setProviders] = useState(null);
+    const [providers, setProviders] = useState([]);
     // const [message, setMessage] = useState(0);
     const { data: unread_messages } = useQuery({
         queryKey: ['unreadMessages'],
@@ -32,8 +32,8 @@ const Navbar = () => {
     //get google provider
     useEffect(() => {
         (async () => {
-            const res = await getProviders();
-            setProviders(res as any);
+            const res = (await getProviders());
+            setProviders(res as any );
         })()
     },[]);
 
@@ -130,7 +130,7 @@ const Navbar = () => {
                                     </Link>
                                     <div className="flex items-center">
                                         {
-                                            providers && Object.values(providers).map((provider) => (
+                                            providers && (Object.values(providers).filter((provider) => (provider as any)?.name !== 'credentials')).map((provider) => (
                                                 <div key={(provider as any)?.name}>
                                                     <button
                                                         className="flex items-center text-white bg-gray-700 text-[12px] hover:bg-gray-900 hover:text-white 
