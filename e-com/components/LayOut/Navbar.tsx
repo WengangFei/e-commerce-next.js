@@ -78,15 +78,15 @@ const Navbar = () => {
                             <Link className="flex flex-shrink-0 items-center" href={{
                                 pathname:'/'
                             }}>
-                            <Image
-                                className="h-10 w-auto"
-                                src={logo}
-                                alt="PropertyPulse"
-                            />
+                                <Image
+                                    className="h-10 w-auto"
+                                    src={logo}
+                                    alt="PropertyPulse"
+                                />
 
-                            <span className="hidden md:block text-white text-2xl font-bold ml-2">
-                                PropertyPulse
-                            </span>
+                                <span className="hidden md:block text-white text-2xl font-bold ml-2">
+                                    PropertyPulse
+                                </span>
                             </Link>
                             {/* <!-- Desktop Menu Hidden below md screens --> */}
                             <div className="hidden md:ml-6 md:block">
@@ -201,22 +201,22 @@ const Navbar = () => {
                                         <div>
                                             <button
                                                 type="button"
-                                                className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                                className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hover:cursor-pointer"
                                                 id="user-menu-button"
                                                 aria-expanded="false"
                                                 aria-haspopup="true"
                                                 onClick={()=>setProfileMenuOpen(prev => !prev)}
                                             >
-                                            <span className="absolute -inset-1.5"></span>
-                                            <span className="sr-only">Open user menu</span>
-                                            <Image
-                                                className="h-8 w-8 rounded-full"
-                                                src={session?.user?.image || profileDefault}
-                                                alt="profile default image"
-                                                width={50}
-                                                height={50}
-                                                
-                                            />
+                                                <span className="absolute -inset-1.5"></span>
+                                                <span className="sr-only">Open user menu</span>
+                                                <Image
+                                                    className="h-8 w-8 rounded-full"
+                                                    src={session?.user?.image || profileDefault}
+                                                    alt="profile default image"
+                                                    width={50}
+                                                    height={50}
+                                                    
+                                                />
                                             </button>
                                         </div>
         

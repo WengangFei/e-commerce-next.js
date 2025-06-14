@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import type { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs"; 
+import formatDate from "./timeFormat";
 
 export const authOptions: AuthOptions = {
     // debug: true,
@@ -80,6 +81,7 @@ export const authOptions: AuthOptions = {
             const user = await User.findOne({ email: session.user.email });
             if (user) {
                 session.user.id = user._id.toString();
+                session.user.createdAt = formatDate(user.createdAt.toISOString());
             }
             return session;
         }
